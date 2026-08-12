@@ -2,12 +2,15 @@ name: Keep Observer Render awake
 
 on:
   schedule:
-    # 09:00-09:20 IST, Monday-Friday.
-    - cron: "30,40,50 3 * * 1-5"
-    # 09:30-15:20 IST, Monday-Friday.
-    - cron: "*/10 4-9 * * 1-5"
-    # 15:30-16:00 IST, Monday-Friday.
-    - cron: "0,10,20,30 10 * * 1-5"
+    # Exact market-day wake-up in Indian Standard Time.
+    - cron: "0 9 * * 1-5"
+      timezone: "Asia/Kolkata"
+    # Redundant off-peak pings from 09:02 through 15:57 IST.
+    - cron: "2-59/5 9-15 * * 1-5"
+      timezone: "Asia/Kolkata"
+    # Final ping after the bot's 16:00 IST internal shutdown.
+    - cron: "2 16 * * 1-5"
+      timezone: "Asia/Kolkata"
   workflow_dispatch:
 
 permissions:
